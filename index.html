@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faykal?</title>
+<link rel="icon" href="https://files.catbox.moe/nexkkx.png">
+<meta name="description" content="Faykal Real, web portfolio tentang perkembangan dalam mempelajari programming, bot WhatsApp, dan teknologi lain. Kontak kami untuk informasi lebih lanjut.">
+<meta name="keywords" content="Faykal, Programming, Bot WhatsApp, HTML, Python, Javascript, PHP, Teknologi, Portfolio, Developer, Teknologi Indonesia, FaykalDev Website, faykaldev, owensdev website, owens, owens website, cyber furina team, cft, furina team, tim furina, furina team, team furina, owner bot furina">
+<meta name="author" content="Faykal">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+        }
+
+        /* Warna tema */
+        :root {
+            --bg-color: #111;
+            --text-color: white;
+            --sidebar-bg: rgba(26, 26, 26, 0.8); /* Sidebar transparan */
+            --toggle-bg: gray;
+            --toggle-circle: white;
+            --text-secondary: #aaaaaa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --sidebar-width: 300px; /* Lebar sidebar lebih panjang */
+            --social-icon-color: white; /* Warna ikon sosial media */
+        }
+
+        /* Dark mode */
+        body.dark-mode {
+            --bg-color: #f0f0f0;
+            --text-color: #333;
+            --sidebar-bg: rgba(255, 255, 255, 0.8); /* Sidebar transparan di dark mode */
+            --toggle-bg: gold;
+            --toggle-circle: black;
+            --text-secondary: #555555;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --social-icon-color: #333; /* Warna ikon sosial media di dark mode */
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+            animation: fadeIn 1s ease-in-out; /* Animasi masuk */
+        }
+
+        /* Animasi fadeIn */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--bg-color);
+            border-bottom: 1px solid var(--text-color);
+            animation: slideDown 0.8s ease-in-out; /* Animasi navbar turun */
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600; /* Lebih tebal */
+            color: gold;
+            text-decoration: none;
+            animation: bergerak 2s infinite;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            color: gold;
+            animation: ketik 4s steps(6) infinite;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+        }
+        
+        @keyframes ketik {
+            0% {
+                width: 0;
+            }
+            50% {
+                width: 120px;
+            }
+            100% {
+                width: 0;
+            }
+        }
+       
+        /* Dark mode toggle */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Jarak antara toggle dan sidebar button */
+        }
+
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: var(--toggle-bg);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-circle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            background: var(--toggle-circle);
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .dark-mode .toggle-circle {
+            transform: translateX(25px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px; /* Sembunyikan sidebar */
+            width: var(--sidebar-width);
+            height: 100%;
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(10px); /* Efek blur seperti iOS */
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .sidebar.open {
+            right: 0; /* Tampilkan sidebar */
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--text-secondary);
+        }
+
+        .sidebar-header .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .sidebar-menu {
+            padding: 20px;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 10px 0;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s, transform 0.3s;
+            opacity: 0; /* Awalnya teks tidak terlihat */
+            transform: translateX(-20px); /* Awalnya teks di geser ke kiri */
+        }
+
+        .sidebar.open .sidebar-menu a {
+            opacity: 1; /* Teks muncul */
+            transform: translateX(0); /* Teks kembali ke posisi semula */
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .sidebar-menu a:hover {
+            color: gold;
+        }
+
+        /* Animasi teks menu */
+        .sidebar.open .sidebar-menu a:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+        .sidebar.open .sidebar-menu a:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+        .sidebar.open .sidebar-menu a:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        /* Button Sidebar */
+        .sidebar-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-btn:hover {
+            transform: scale(1.1); /* Efek hover */
+        }
+
+        /* Kontainer utama */
+        .container {
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+            animation: fadeInUp 1s ease-in-out; /* Animasi kontainer naik */
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Profil */
+        .profile-card {
+            background: var(--sidebar-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeIn 1.2s ease-in-out; /* Animasi kartu profil */
+            box-shadow: var(--shadow);
+        }
+
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid rgb(157, 157, 157);
+            transition: transform 0.3s;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 600; /* Lebih tebal */
+            margin-top: 10px;
+        }
+
+        .profile-bio {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .profile-tags {
+            margin-top: 10px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #222;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 3px;
+            transition: background 0.3s;
+        }
+
+        .tag:hover {
+            background: gold;
+            color: black;
+        }
+
+        /* Sosial Media */
+        .profile-links {
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            color: var(--social-icon-color); /* Warna ikon sesuai mode */
+            font-size: 20px;
+            margin: 0 8px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-icon:hover {
+            color: gold; /* Efek hover */
+        }
+
+        /* Link */
+        .link {
+            display: flex;
+            align-items: center;
+            background: var(--sidebar-bg);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-color);
+            justify-content: space-between;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .link:hover {
+            transform: translateY(-5px);
+        }
+
+        .link-icon {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .link-icon img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .link-text {
+            text-align: left;
+        }
+
+        .link-title {
+            font-size: 16px;
+            font-weight: 600; /* Lebih tebal */
+        }
+
+        .link-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .arrow {
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 30px;
+        }
+
+        .footer a {
+            color: gold;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Halaman Sewa */
+        .sewa-page, .jasa-page {
+            display: none; /* Sembunyikan halaman secara default */
+            padding: 20px;
+        }
+
+        .katalog {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .katalog-item {
+            background: var(--sidebar-bg);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .katalog-item img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .katalog-item h3 {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .katalog-item p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .katalog-item .price {
+            font-size: 14px;
+            font-weight: 600;
+            color: gold;
+            margin: 10px 0;
+        }
+
+        .katalog-item button {
+            background: gold;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .katalog-item button:hover {
+            background: goldenrod;
+        }
+
+        /* Halaman Jasa */
+        .jasa-page ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .jasa-page ul li {
+            background: var(--sidebar-bg);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .jasa-page ul li h3 {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .jasa-page ul li p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .jasa-page .info {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .verified {
+            color: #007bff;
+            font-size: 18px;
+            margin-left: 1px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading State -->
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="#" class="logo">Faykal</a>
+        <div class="toggle-container">
+            <!-- Dark Mode Toggle -->
+            <div class="toggle" onclick="toggleDarkMode()">
+                <div class="toggle-circle"></div>
+            </div>
+            <!-- Button Sidebar -->
+            <button class="sidebar-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <button class="close-btn" onclick="toggleSidebar()">
+                <i class="fas fa-backspace"></i>
+            </button>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" onclick="showPage('home')">Home</a>
+            <a href="#" onclick="showPage('sewa')">Price Bot</a>
+            <a href="#" onclick="showPage('jasa')">Rules Sewa</a>
+        </div>
+    </div>
+
+    <!-- Kontainer Utama -->
+    <div class="container">
+        <!-- Halaman Home -->
+        <div id="home-page">
+            <!-- Profil -->
+            <div class="profile-card">
+                <img src="https://files.catbox.moe/u28azv.jpg" alt="Profile Picture" class="profile-pic">
+                <h2 class="profile-name">Faykal <i class="fas fa-check-circle verified"></i></h2>
+                <p class="profile-bio">Dreamer, Thinker, Doer.</p>
+                
+                <!-- Tag "Ngoding Turu Anime Music" -->
+                <div class="profile-tags">
+                    <span class="tag">Coding</span>
+                    <span class="tag">Sleep</span>
+                    <span class="tag">Game</span>
+                    <span class="tag">Anime</span>
+                </div>
+
+                <!-- Ikon Sosial Media -->
+                <div class="profile-links">
+                    <a href="https://www.tiktok.com/@faykalmlbb?_t=8qHhC1W8Ucy&_r=1" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/message/6285234754939?text=Hai Kak Faykal." class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/fikrifaykal" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Daftar Link -->
+            <a href="https://me.faykalbotz.my.id" class="link">
+                <div class="link-icon">
+                    <div class="link-text">
+                        <div class="link-title">Personal Website</div>
+                        <div class="link-subtitle">About me.</div>
+                    </div>
+                </div>
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+            </a>
+
+            <a href="https://ai.faykalbotz.my.id" class="link">
+                <div class="link-icon">
+                    <div class="link-text">
+                        <div class="link-title">Noxxy Ai</div>
+                        <div class="link-subtitle">Make all questions easier with ai.</div>
+                    </div>
+                </div>
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+            </a>
+
+            <a href="https://api.faykalbotz.my.id" class="link">
+                <div class="link-icon">
+                    <div class="link-text">
+                        <div class="link-title">Rest Api</div>
+                        <div class="link-subtitle">Simple API for WhatsApp Bot Developers.</div>
+                    </div>
+                </div>
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+            </a>
+
+            <a href="https://wa.me/62882005354232?text=.allmenu" class="link">
+                <div class="link-icon">
+                    <div class="link-text">
+                        <div class="link-title">Faykal Bot</div>
+                        <div class="link-subtitle">Make things easier for you through faykal bot.</div>
+                    </div>
+                </div>
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+            </a>
+
+            <a href="https://chat.whatsapp.com/C9zCqhsLAuwEXkr4xwXEph" class="link">
+                <div class="link-icon">
+                    <div class="link-text">
+                        <div class="link-title">Faykal Channel</div>
+                        <div class="link-subtitle">Information about bots.</div>
+                    </div>
+                </div>
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+            </a>
+
+            <a href="https://brat.faykalbotz.my.id" class="link">
+                <div class="link-icon">
+                    <div class="link-text">
+                        <div class="link-title">Brat Generator</div>
+                        <div class="link-subtitle">Create beautiful spaced text images with custom colors.</div>
+                    </div>
+                </div>
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+            </a>
+
+            <a href="https://ttdl.faykalbotz.my.id" class="link">
+                <div class="link-icon">
+                    <div class="link-text">
+                        <div class="link-title">Dowloader TikTok</div>
+                        <div class="link-subtitle">Download videos and images without watermark.</div>
+                    </div>
+                </div>
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+            </a>
+
+            <a href="https://pay.faykalbotz.my.id" class="link">
+                <div class="link-icon">
+                    <div class="link-text">
+                        <div class="link-title">Donate</div>
+                        <div class="link-subtitle">Donate as you wish.</div>
+                    </div>
+                </div>
+                <div class="arrow">
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </div>
+            </a>
+        </div>
+
+        <!-- Halaman Sewa -->
+        <div id="sewa-page" class="sewa-page">
+            <h2>Katalog Sewa</h2>
+            <div class="katalog">
+                <div class="katalog-item">
+                    <img src="https://files.catbox.moe/bpticu.jpg" alt="FaykalDev">
+                    <h3>Sewa Bot</h3>
+                    <p>1 Bulan</p>
+                    <div class="price">Rp 10.000</div>
+                    <button onclick="window.location.href='https://wa.me/6285234754939?text=kak_Sewabot_MD_1bulan_10.000'">Buy</button>
+                </div>
+                <div class="katalog-item">
+                    <img src="https://files.catbox.moe/bpticu.jpg" alt="FaykalDev">
+                    <h3>Sewa Bot</h3>
+                    <p>2 Bulan</p>
+                    <div class="price">Rp 20.000</div>
+                    <button onclick="window.location.href='https://wa.me/6285234754939?text=kak_Sewabot_MD_2bulan_20.000'">Buy</button>
+                </div>
+                <div class="katalog-item">
+                    <img src="https://files.catbox.moe/bpticu.jpg" alt="FaykalDev">
+                    <h3>Sewa Bot</h3>
+                    <p>3 Bulan</p>
+                    <div class="price">Rp 30.000</div>
+                    <button onclick="window.location.href='https://wa.me/6285234754939?text=kak_Sewabot_MD_3bulan_30.000'">Buy</button>
+                </div>
+                <div class="katalog-item">
+                    <img src="https://files.catbox.moe/m6gppg.jpg" alt="FaykalDev">
+                    <h3>Sewa Bot</h3>
+                    <p>1 Bulan</p>
+                    <div class="price">Rp 5.000</div>
+                    <button onclick="window.location.href='https://wa.me/6285234754939?text=kak_Sewabot_STORE_1bulan_5.000'">Buy</button>
+                </div>
+                <div class="katalog-item">
+                    <img src="https://files.catbox.moe/m6gppg.jpg" alt="FaykalDev">
+                    <h3>Sewa Bot</h3>
+                    <p>2 Bulan</p>
+                    <div class="price">Rp 10.000</div>
+                    <button onclick="window.location.href='https://wa.me/6285234754939?text=kak_Sewabot_STORE_2bulan_10.000'">Buy</button>
+                </div>
+                <div class="katalog-item">
+                    <img src="https://files.catbox.moe/m6gppg.jpg" alt="FaykalDev">
+                    <h3>Sewa Bot</h3>
+                    <p>3 Bulan</p>
+                    <div class="price">Rp 15.000</div>
+                    <button onclick="window.location.href='https://wa.me/6285234754939?text=kak_Sewabot_STORE_3bulan_15.000'">Buy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Halaman Jasa -->
+        <div id="jasa-page" class="jasa-page">
+            <h2>Rules Sewa</h2>
+            <ul>
+                <li>
+                    <h3>Tanpa bukti pembayaran, order tidak akan kami proses.</h3>
+                    <p><i class="fa fa-hashtag"></i>Bukti screnshot.</p>
+                </li>
+                <li>
+                    <h3>Melakukan Pembelian Artinya Anda Setuju Dengan Segala Kebijakan Kami.</h3>
+                    <p><i class="fa fa-hashtag"></i>Wajib.</p>
+                </li>
+                <li>
+                    <h3>Tidak Puas Dengan Layanan Kami? Kami Kembalikan Uang Anda 100% Dalam Jangka Waktu 1 Jam Setelah Pembelian.</h3>
+                    <p><i class="fa fa-hashtag"></i>Sertakan payment.</p>
+                </li>
+                <li>
+                    <h3>Kami Tidak Bertanggung Jawab Apabila Bot Di Kick Tidak Dapat Dimasukan Kembali.</h3>
+                    <p><i class="fa fa-hashtag"></i>Tidak Menerima Alasan Apapun.</p>
+                </li>
+                <li>
+                    <h3>Jika Bot Mengalami Kendala Atau Perbaikan Hingga 24 Jam Atau Lebih, Kami Berikan Kompensasi Berupa Penambahan Waktu Sewa.</h3>
+                    <p><i class="fa fa-hashtag"></i>Segera Beritahu Jika Error.</p>
+                </li>
+            </ul>
+            <div class="info">
+                <h3><i class="fas fa-info-circle"></i> Information</h3>
+                <p><i class="fa fa-hashtag"></i> Pembayaran melalui QRIS all payment</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>© 2025 Faykal. <a href="https://whatsapp.com/channel/0029VaRI1OB2P59cTdJKZh3q">Privacy Policy</a></p>
+    </div>
+
+    <script>
+        // Fungsi untuk toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+
+        // Fungsi untuk toggle sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Fungsi untuk menampilkan halaman tertentu
+        function showPage(page) {
+            document.getElementById('home-page').style.display = page === 'home' ? 'block' : 'none';
+            document.getElementById('sewa-page').style.display = page === 'sewa' ? 'block' : 'none';
+            document.getElementById('jasa-page').style.display = page === 'jasa' ? 'block' : 'none';
+            toggleSidebar(); // Tutup sidebar setelah memilih menu
+        }
+
+        // Simulate loading
+        setTimeout(() => {
+            document.querySelector('.loading').style.display = 'none';
+        }, 2000);
+    </script>
+
+    <!-- Font Awesome untuk ikon sosial media -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>
