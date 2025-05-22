@@ -150,7 +150,7 @@
         }
 
         /* Sidebar */
-        .sidebar {
+        .sidebar, *:focus, *:active {
             position: fixed;
             top: 0;
             right: -300px; /* Sembunyikan sidebar */
@@ -342,7 +342,9 @@
             transform: translateY(-5px);
         }
 
-        .link-icon {
+        .link-icon, *:focus, *:active{
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -483,7 +485,7 @@
 
         *:focus, *:active {
           outline: none;
-          box-shadow: none;
+          -webkit-tap-highlight-color: transparent;
         }
 
     </style>
